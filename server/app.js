@@ -7,23 +7,36 @@ app.get("/", (req, res) => {
   res.send("Hello Wolrd");
 });
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 app.post("/suggest", function(req, res) {
   // sanitize the input posted to your route for security
   //input = req.sanitize(req.body);
-  input = req.body;
-  console.log(input);
+  userInput = req.body.userInput;
+  //console.log(userInput);
   //input = "Yo";
 
   // import the node helper function
   const { spawn } = require("child_process");
 
   // run the python process with input posted in the route
-  const pythonProcess = spawn("python3", ["./script/suggestor.py", input]);
+  const pythonProcess = spawn("python3", ["./script/suggestor.py", userInput]);
+  console.log("spawned: " + pythonProcess.pid);
 
   // take the output from the python stdout process
   pythonProcess.stdout.on("data", data => {
-    output = data.toString();
-    console.log(output);
+    suggestions = data.toString();
+    res.send({ suggestions: suggestions });
   });
 });
 

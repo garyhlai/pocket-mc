@@ -4,8 +4,12 @@ export default class UserInput extends Component {
   constructor() {
     super();
     this.state = {
-      data: null
+      data: null,
+      userInput: "default",
+      suggestions: "empty"
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -25,6 +29,28 @@ export default class UserInput extends Component {
     return body;
   };
 
+  handleChange(e) {
+    this.setState({ userInput: e.target.value });
+  }
+
+  handleSubmit = async e => {
+    console.log("submit was clicked");
+    e.preventDefault();
+    const response = await fetch("http://localhost:5000/suggest", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ userInput: this.state.userInput })
+    });
+
+    const body = await response.json();
+
+    console.log(body.suggestions);
+    this.setState({
+      suggestions: body.suggestions
+    });
+  };
   render() {
     return (
       <div class="row container">
@@ -32,8 +58,24 @@ export default class UserInput extends Component {
           <div class="row">
             <div class="input-field col s6">
               <i class="material-icons prefix">mode_edit</i>
-              <textarea id="icon_prefix2" class="materialize-textarea" />
-              <label for="icon_prefix2">First Name</label>
+              <input
+                placeholder="Placeholder"
+                value={this.state.userInput}
+                onChange={this.handleChange}
+                id="first_name"
+                type="text"
+                class="validate"
+              />
+              <button
+                class="btn waves-effect waves-light"
+                type="submit"
+                name="action"
+                onClick={this.handleSubmit}
+              >
+                Submit
+                <i class="material-icons right">send</i>
+              </button>
+              <div>{this.state.suggestions}</div>
             </div>
           </div>
         </form>
