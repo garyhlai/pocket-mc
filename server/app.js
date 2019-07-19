@@ -36,6 +36,7 @@ app.post("/suggest", function(req, res) {
   // take the output from the python stdout process
   pythonProcess.stdout.on("data", data => {
     suggestions = data.toString();
+    console.log(suggestions);
     res.send({ suggestions: suggestions });
   });
 });
