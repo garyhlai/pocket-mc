@@ -1,4 +1,6 @@
 import pdb
+import sys
+
 
 class Rhymes():
     root = None
@@ -44,12 +46,12 @@ class Rhymes():
                 # will need to be optimized later
                 acc = [] + self.values
                 for child in self.children.values():
-                    acc += child.all_children_values(key_sequence[1:], depth_cutoff, level+1)
+                    acc += child.all_children_values(
+                        key_sequence[1:], depth_cutoff, level+1)
                 return acc
-                    
 
     def __init__(self):
-        symbols = list(open('cmudict-0.7b.symbols' , 'rt'))
+        symbols = list(open('cmudict-0.7b.symbols', 'rt'))
         print('# of symbols: %d' % len(symbols))
 
         self.lookup = {}
@@ -79,11 +81,13 @@ class Rhymes():
 
 if __name__ == '__main__':
     rhymes = Rhymes()
-    print('Pronunciation of "apple" is %s' % ' '.join(rhymes.pronunciation_of('apple')))
-    print('Pronunciation of "gary" is %s' % ' '.join(rhymes.pronunciation_of('gary')))
+    print('Pronunciation of "apple" is %s' %
+          ' '.join(rhymes.pronunciation_of('apple')))
+    print('Pronunciation of "gary" is %s' %
+          ' '.join(rhymes.pronunciation_of('gary')))
 
-    while True:
-        word = raw_input()
-        print(rhymes.pronunciation_of(word))
-        print(rhymes.ends_with(rhymes.pronunciation_of(word), 2))
-
+    # while True:
+    #word = raw_input()
+    word = sys.argv[1]
+    print(rhymes.pronunciation_of(word))
+    print(rhymes.ends_with(rhymes.pronunciation_of(word), 2))
