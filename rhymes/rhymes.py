@@ -34,14 +34,19 @@ class Rhymes():
                 else:
                     return []
 
-        def all_children_values(self, exclude=None):
-            all_values = [] + self.values
-            for node in self.children.values():
-                if node is exclude:
-                    continue
+        def all_children_values(self, key_sequence, depth_cutoff, level=0):
+            if len(key_sequence) == 0:
+                return self.values
 
-                all_values.append(node.all_children_values())
-            return all_values
+            if level < depth_cutoff:
+                return self.children[key_sequence[0]].all_children_values(key_sequence[1:], depth_cutoff, level+1)
+            else:
+                # will need to be optimized later
+                acc = [] + self.values
+                for child in self.children.values():
+                    acc += child.all_children_values(key_sequence[1:], depth_cutoff, level+1)
+                return acc
+                    
 
     def __init__(self):
         symbols = list(open('cmudict-0.7b.symbols' , 'rt'))
@@ -68,12 +73,17 @@ class Rhymes():
             word = word.upper()
         return self.lookup[word] if word in self.lookup else None
 
-    def ends_with(self, pronunciation):
-        return self.root.traverse_sequence(pronunciation[::-1])
+    def ends_with(self, pronunciation, cutoff=2):
+        return self.root.all_children_values(pronunciation[::-1], cutoff)
 
 
 if __name__ == '__main__':
     rhymes = Rhymes()
     print('Pronunciation of "apple" is %s' % ' '.join(rhymes.pronunciation_of('apple')))
-    print('Pronunciation of "zsa" is %s' % ' '.join(rhymes.pronunciation_of('zsa')))
-    print(rhymes.ends_with(rhymes.pronunciation_of('apple')))
+    print('Pronunciation of "gary" is %s' % ' '.join(rhymes.pronunciation_of('gary')))
+
+    while True:
+        word = raw_input()
+        print(rhymes.pronunciation_of(word))
+        print(rhymes.ends_with(rhymes.pronunciation_of(word), 2))
+
