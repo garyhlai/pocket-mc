@@ -1,3 +1,5 @@
+import pdb
+
 class Rhymes():
     root = None
     lookup = None
@@ -14,20 +16,23 @@ class Rhymes():
             if len(key_sequence) == 0:
                 self.values.append(value)        # base case
             else:
-                child = Rhymes.TrieNode()
+                if key_sequence[0] not in self.children:
+                    child = Rhymes.TrieNode()
+                else:
+                    child = self.children[key_sequence[0]]
+
                 child.add(value, key_sequence[1:])
                 self.children[key_sequence[0]] = child
 
         def traverse_sequence(self, key_sequence):
-            print(key_sequence)
-            if key_sequence[0] not in self.children:
-                return []
+            if len(key_sequence) == 0:
+                return self.values
             else:
-                child = self.children[key_sequence[0]]
-                #ret = self.all_children_values(exclude=child) + \
-                #        child.traverse_sequence(key_sequence[1:])
-                ret = child.traverse_sequence(key_sequence[1:])
-                return ret
+                if key_sequence[0] in self.children:
+                    child = self.children[key_sequence[0]]
+                    return child.traverse_sequence(key_sequence[1:])
+                else:
+                    return []
 
         def all_children_values(self, exclude=None):
             all_values = [] + self.values
