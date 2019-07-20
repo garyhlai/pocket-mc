@@ -20,7 +20,9 @@ export default class UserInput extends Component {
   }
 
   callBackendAPI = async () => {
-    const response = await fetch("http://localhost:5000/express_backend");
+    const response = await fetch(
+      "http://ec2-52-14-33-7.us-east-2.compute.amazonaws.com:5000/express_backend"
+    );
     const body = await response.json();
 
     if (response.status !== 200) {
@@ -36,13 +38,16 @@ export default class UserInput extends Component {
   handleSubmit = async e => {
     console.log("submit was clicked");
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/suggest", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ userInput: this.state.userInput })
-    });
+    const response = await fetch(
+      "http://ec2-52-14-33-7.us-east-2.compute.amazonaws.com:5000/suggest",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ userInput: this.state.userInput })
+      }
+    );
 
     const body = await response.json();
 
