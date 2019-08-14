@@ -51,12 +51,16 @@ class Rhymes():
                 return acc
 
     def __init__(self):
-        symbols = list(open('./script/cmudict-0.7b.symbols', 'rt'))
+        #symbols = list(open('./script/cmudict-0.7b.symbols', 'rt'))
+
+        symbols = list(open('./cmudict-0.7b.symbols', 'rt'))
+
         # print('# of symbols: %d' % len(symbols))
 
         self.lookup = {}
         self.root = self.TrieNode()
-        for line in open('./script/cmudict.0.7a', 'rt'):
+        # for line in open('./script/cmudict.0.7a', 'rt'):
+        for line in open('./cmudict.0.7a', 'rt'):
             if line.startswith(';;;'):
                 continue
 
