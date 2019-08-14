@@ -1,7 +1,7 @@
 import gensim
 
 gmodel = gensim.models.KeyedVectors.load_word2vec_format(
-    "./GoogleNews-vectors-negative300.bin", binary=True, limit=20000)
+    "./script/GoogleNews-vectors-negative300.bin", binary=True, limit=20000)
 
 
 def related(target, poten, n):
