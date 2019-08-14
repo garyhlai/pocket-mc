@@ -21,7 +21,7 @@ export default class UserInput extends Component {
 
   callBackendAPI = async () => {
     const response = await fetch(
-      "http://ec2-52-14-33-7.us-east-2.compute.amazonaws.com:5000/express_backend"
+      "http://ec2-18-191-151-183.us-east-2.compute.amazonaws.com:5000/express_backend"
     );
     const body = await response.json();
 
@@ -39,7 +39,7 @@ export default class UserInput extends Component {
     console.log("submit was clicked");
     e.preventDefault();
     const response = await fetch(
-      "http://ec2-52-14-33-7.us-east-2.compute.amazonaws.com:5000/suggest",
+      "http://ec2-18-191-151-183.us-east-2.compute.amazonaws.com:5000/suggest",
       {
         method: "POST",
         headers: {
