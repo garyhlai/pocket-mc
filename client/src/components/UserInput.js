@@ -5,8 +5,8 @@ export default class UserInput extends Component {
     super();
     this.state = {
       data: null,
-      userInput: "default",
-      suggestions: "empty"
+      userInput: "",
+      suggestions: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -64,7 +64,7 @@ export default class UserInput extends Component {
             <div class="input-field col s6">
               <i class="material-icons prefix">mode_edit</i>
               <input
-                placeholder="Placeholder"
+                placeholder="Be patient after clicking the button. Loading is still work in progress."
                 value={this.state.userInput}
                 onChange={this.handleChange}
                 id="first_name"
@@ -77,7 +77,7 @@ export default class UserInput extends Component {
                 name="action"
                 onClick={this.handleSubmit}
               >
-                Submit
+                Suggest Rhymes
                 <i class="material-icons right">send</i>
               </button>
               <div>{this.state.suggestions}</div>
