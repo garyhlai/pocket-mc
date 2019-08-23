@@ -64,7 +64,7 @@ export default class UserInput extends Component {
             <div class="input-field col s6">
               <i class="material-icons prefix">mode_edit</i>
               <input
-                placeholder="Be patient after clicking the button. Loading is still work in progress."
+                placeholder="Be patient after clicking the button. Still working on speed."
                 value={this.state.userInput}
                 onChange={this.handleChange}
                 id="first_name"
